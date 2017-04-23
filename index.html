@@ -34,10 +34,19 @@
     <div class="row">
         <div class="col s8">
             <h3> Distributions of Pokemon Across Regions </h2>
-
+            <h6 id="current-type" align="center"></h6>
             <div id="viz"></div>
         </div>
         <div class="col s4">
+
+            <select class="dropdown-button btn" data-activates="dropdown" id="mySelect">
+                <ul id="dropdown" class="dropdown-content">
+                    <li><option value="Types" >Types</option></li>
+                    <li><option value="Base Stats" >Base Stats</option></li>
+                </ul>
+                
+            </select>
+        
             <div align="center" class="btn-group"> 
                 <table class="centered"> 
                     <tr>

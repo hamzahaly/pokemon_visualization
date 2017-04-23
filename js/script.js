@@ -1,10 +1,27 @@
+$(document).ready(function() {
+    $(".dropdown-button").on('change', function() {
+        var val = $("#mySelect").val();
+        console.log(val);
+    }).dropdown({
+            inDuration: 300,
+            outDuration: 225,
+            constrainWidth: false, // Does not change width of dropdown to that of the activator
+            hover: false, // Activate on hover
+            gutter: 0, // Spacing from edge
+            belowOrigin: false, // Displays dropdown below the button
+            alignment: 'left', // Displays dropdown with edge aligned to the left of button
+            stopPropagation: false // Stops event propagation
+    }); 
+
+});
+
 $(function() {
     d3.csv('data/Pokemon.csv', function(error, data) {
         console.log(data);
 
         //Margin object
         var margin = {
-            top: 40,
+            top: 50,
             right: 50,
             bottom: 100,
             left: 70
@@ -250,8 +267,9 @@ $(function() {
 
         $("button").on("click", function() {
             var val = $(this).val();
-            console.log(val);
-
+            var className = $(this).attr('class');
+            
+            $("h6").text(val).attr('class', className);
             type = val;
 
             var filteredData = typeFilter();
