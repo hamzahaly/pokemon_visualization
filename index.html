@@ -6,8 +6,8 @@
     <title>Gotta Visualize'em All!</title>
 
     <!--Materialize-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+
     <!--Your stylesheet-->
     <link rel="stylesheet" href="css/main.css">
 
@@ -15,10 +15,47 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.js"></script>
 
+    <!-- Compiled and minified JavaScript Materialize -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+
+    <!--Icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <!--Script Files go here-->
     <script src="js/script.js"></script>
 </head>
 <body>
+    <nav class="blue" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="brand-logo">Gotta Visualize'em All!</a>
+            <a href="#" data-activities="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+    <div class="types btn-group"> 
+        <button class="waves-effect waves-light brown lighten-3 btn" value="normal">Normal</button>
+        <button class="waves-effect waves-light btn orange darken-1" value="fire">Fire</button>
+        <button class="waves-effect waves-light btn light-blue" value="water">Water</button>
+        <button class="waves-effect waves-light btn green accent-4" value="grass">Grass</button>
+        <button class="waves-effect waves-light btn yellow" value="electric">Electric</button>
+        <button class="waves-effect waves-light btn cyan lighten-3" value="ice">Ice</button>
+        <button class="waves-effect waves-light btn amber lighten-2" value="ground">Ground</button>
+        <button class="waves-effect waves-light btn indigo lighten-2" value="flying">Flying</button>
+        <button class="waves-effect waves-light btn deep-purple" value="poison">Poison</button>
+        <button class="waves-effect waves-light btn brown darken-1" value="fighting">Fighting</button>
+        <button class="waves-effect waves-light btn pink lighten-1" value="psychic">Psychic</button>
+        <button class="waves-effect waves-light btn grey darken-4" value="dark">Dark</button>
+        <button class="waves-effect waves-light btn lime darken-4" value="rock">Rock</button>
+        <button class="waves-effect waves-light btn lime darken-2" value="bug">Bug</button> 
+        <button class="waves-effect waves-light btn deep-purple darken-3" value="ghost">Ghost</button>
+        <button class="waves-effect waves-light btn grey darken-1" value="steel">Steel</button>
+        <button class="waves-effect waves-light btn indigo darken-2" value="dragon">Dragon</button>
+        <button class="waves-effect waves-light btn pink lighten-4" value="fairy">Fairy</button>
+    </div>
+
+    <div id="viz"> 
+
+    </div>
     
 </body>
 </html>
