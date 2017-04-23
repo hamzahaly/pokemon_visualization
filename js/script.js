@@ -1,20 +1,3 @@
-$(document).ready(function() {
-    $(".dropdown-button").on('change', function() {
-        var val = $("#mySelect").val();
-        console.log(val);
-    }).dropdown({
-            inDuration: 300,
-            outDuration: 225,
-            constrainWidth: false, // Does not change width of dropdown to that of the activator
-            hover: false, // Activate on hover
-            gutter: 0, // Spacing from edge
-            belowOrigin: false, // Displays dropdown below the button
-            alignment: 'left', // Displays dropdown with edge aligned to the left of button
-            stopPropagation: false // Stops event propagation
-    }); 
-
-});
-
 $(function() {
     d3.csv('data/Pokemon.csv', function(error, data) {
         console.log(data);
@@ -35,12 +18,9 @@ $(function() {
         var drawHeight = height - margin.bottom - margin.top;
         var drawWidth = width - margin.left - margin.right;
 
+        //This variable is either the elemental stat or base stat name
         var type = 'all';
-
-        //Static Elements for visualizations
-        //Title
-        //g's to contain labels
-        //axes
+        var selection = 'Types';
 
         //svg element to work with entire viz
         var svg = d3.select('#viz')
@@ -132,6 +112,43 @@ $(function() {
             return aggregatedPokemon;
         };
 
+        var aggregateBaseStats = function() {
+            var aggregatedPokemon = d3.nest()
+            .key(function(d) {
+                //Returns the name of the region based on the Generation value in the data to help with the domain 
+                switch (d.Generation) {
+                    case '1':
+                    return 'Kanto';
+                    break;
+                case '2':
+                    return 'Johto';
+                    break;
+                case '3':
+                    return 'Hoenn';
+                    break;
+                case '4':
+                    return 'Sinnoh';
+                    break;
+                case '5':
+                    return 'Unova';
+                    break;
+                case '6':
+                    return 'Kalos';
+                    break;
+                default:
+                    return null;
+                    break;
+                }
+            })
+            .rollup(function(leaves) {
+                return d3.mean(leaves, function(d) {
+                    return +d[type];
+                });
+            }).entries(data);
+            console.log(aggregatedPokemon);
+            return aggregatedPokemon;
+        };
+
         var numberPokemonPerRegion = d3.nest()
             .key(function(d) {
                 //Returns the name of the region based on the Generation value in the data to help with the domain 
@@ -189,18 +206,12 @@ $(function() {
         var xScale = d3.scaleBand();
         var yScale = d3.scaleLinear();
 
-        //var regionalColors = ['#5A8BCD', '#FF5A10', '#4A8373', '#bd6ad5', '#52525a', '#EA1A3E'];
-
+        //Gives specific colors to each Pokemon region
         var regionalColors = ['crimson', 'blue', 'green', 'purple', 'grey', 'orange'];
 
         var colorScale = d3.scaleOrdinal()
             .domain(regions)
             .range(regionalColors);
-
-        //Functions to render changes for visualizations
-        //setScale
-        //setAxes
-        //draw
         
         //Sets the scale based on the data passed in
         var setScales = function(data) {
@@ -233,7 +244,11 @@ $(function() {
             yAxisLabel.transition().duration(1000).call(yAxis);
 
             xAxisText.text('Regions');
-            yAxisText.text('Number of Pokemon')
+            if (selection == 'Types') {
+                yAxisText.text('Number of Pokemon')
+            } else {
+                yAxisText.text("Average " + type + " Stat")
+            }
         };
 
 
@@ -245,12 +260,32 @@ $(function() {
 
             var bars = g.selectAll('rect').data(data);
 
+            //Tips
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                    return Math.round(d.value * 100) / 100;
+            });
+            g.call(tip);
+
             bars.enter().append('rect')
                 .attr('x', function(d) {
                     return xScale(d.key);
                 })
+                .attr('y', function(d) {
+                    return drawHeight;
+                })
+                .attr('height', 0)
                 .attr('class', 'bar')
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide)
                 .merge(bars)
+                .transition()
+                .duration(750)
+                .delay(function(d, i) {
+                    return 50 * i;
+                })
                 .attr('width', xScale.bandwidth())
                 .attr('y', function(d) {
                     return yScale(d.value);
@@ -274,11 +309,48 @@ $(function() {
 
             var filteredData = typeFilter();
             
-            draw(aggregate(filteredData));
+            if (selection == 'Types') {
+                draw(aggregate(filteredData));
+
+            } else if (selection == 'Base Stats') {
+                draw(aggregateBaseStats(numberPokemonPerRegion));
+            }
 
             if (type == 'all') {
                 draw(numberPokemonPerRegion);
             }
+
+            // var thing = aggregateBaseStats()
+            // console.log(thing);
+        });
+
+        $(document).ready(function() {
+            $(".dropdown-button").on('change', function() {
+            var val = $("#mySelect").val();
+            console.log(val);
+            selection = val;
+
+            //$(".btn-group").replaceWith();
+
+            if (selection == 'Base Stats') {
+                console.log("basestats selected");
+                $("#stats").show();
+                $("#types").hide();
+            } else if (selection == 'Types') {
+                console.log("types selected");
+                $('#types').show();
+                $("#stats").hide();
+            }
+        }).dropdown({
+            inDuration: 300,
+            outDuration: 225,
+            constrainWidth: false, // Does not change width of dropdown to that of the activator
+            hover: false, // Activate on hover
+            gutter: 0, // Spacing from edge
+            belowOrigin: false, // Displays dropdown below the button
+            alignment: 'left', // Displays dropdown with edge aligned to the left of button
+            stopPropagation: false // Stops event propagation
+        }); 
         });
 
         draw(numberPokemonPerRegion)
