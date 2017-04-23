@@ -10,6 +10,11 @@ nav .brand-logo {
     color: green;
 }
 
-a {
+div .btn-group {
+    margin: 1em;
     padding: 1em;
+}
+
+.button {
+    width: 200px;
 }

@@ -4,22 +4,21 @@ $(function() {
 
         //Margin object
         var margin = {
-            top: 100,
+            top: 40,
             right: 50,
             bottom: 100,
-            left: 120
+            left: 70
         };
 
         //Height and Width variables for the svg element (total area)
-        var height = 1000;
-        var width = 850;
+        var height = 600;
+        var width = 800;
 
         //Height and width variables for the drawing space 
         var drawHeight = height - margin.bottom - margin.top;
         var drawWidth = width - margin.left - margin.right;
 
         var type = 'all';
-        
 
         //Static Elements for visualizations
         //Title
@@ -75,11 +74,45 @@ $(function() {
         Calculates a count of the number of pokemon in each region. Megas are included in the region where the original pokemon originates. Additionally, counts different forms for pokemon i.e. pumpkaboo sizes, etc.
         */
         var typeFilter = function() {
-            var data = data.filter(function(d) {
-
-                return null;
+            var filteredData = data.filter(function(d) {
+                return d['Type 1'] == type || d['Type 2'] == type;
             });
-            return data;
+            return filteredData;
+        };
+
+        var aggregate = function(data) {
+            var aggregatedPokemon = d3.nest()
+            .key(function(d) {
+                //Returns the name of the region based on the Generation value in the data to help with the domain 
+                switch (d.Generation) {
+                    case '1':
+                    return 'Kanto';
+                    break;
+                case '2':
+                    return 'Johto';
+                    break;
+                case '3':
+                    return 'Hoenn';
+                    break;
+                case '4':
+                    return 'Sinnoh';
+                    break;
+                case '5':
+                    return 'Unova';
+                    break;
+                case '6':
+                    return 'Kalos';
+                    break;
+                default:
+                    return null;
+                    break;
+                }
+            })
+            .rollup(function(d) {
+                return d.length;
+            }).entries(data);
+            console.log(aggregatedPokemon);
+            return aggregatedPokemon;
         };
 
         var numberPokemonPerRegion = d3.nest()
@@ -154,13 +187,14 @@ $(function() {
         
         //Sets the scale based on the data passed in
         var setScales = function(data) {
-            var yMin = d3.min(numberPokemonPerRegion, function(d) {
+            var yMin = d3.min(data, function(d) {
                 return +d.value;
             });
 
-            var yMax = d3.max(numberPokemonPerRegion, function(d) {
+            var yMax = d3.max(data, function(d) {
                 return +d.value
             });
+            console.log(yMax);
 
             xScale.range([0, drawWidth])
                 .domain(regions)
@@ -218,6 +252,15 @@ $(function() {
             var val = $(this).val();
             console.log(val);
 
+            type = val;
+
+            var filteredData = typeFilter();
+            
+            draw(aggregate(filteredData));
+
+            if (type == 'all') {
+                draw(numberPokemonPerRegion);
+            }
         });
 
         draw(numberPokemonPerRegion)
