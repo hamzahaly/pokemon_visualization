@@ -5,9 +5,6 @@
     <meta name=viewport content="width=device-width, initial-scale=1.0">
     <title>Gotta Visualize'em All!</title>
 
-    <!--Materialize-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
-
     <!--Your stylesheet-->
     <link rel="stylesheet" href="css/main.css">
 
@@ -17,6 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.js"></script>
     <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
 
+    <!--Materialize-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 
     <!-- Compiled and minified JavaScript Materialize -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
@@ -34,10 +33,12 @@
             <a href="#" data-activities="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         </div>
     </nav>
+    
     <div class="row">
         <div class="col s8">
             <h3> Distributions of Pokemon Across Regions </h2>
             <h6 id="current-type" align="center"></h6>
+            <h4 id="best-region" align="center"></h4>
             <div id="viz"></div>
         </div>
         <div class="col s4">
@@ -111,6 +112,40 @@
             </div>
         </div>
     </div>
-    
+    <div class="container">
+        <div class="row">
+                <!--Content 1 goes here -->
+                <h5>Expressing Data Effectively</h5>
+                <p>I decided to use a bar chart to visualize this data. The reason I choose this visual layout was because I wanted to express differences between ordinal data.
+                    In addition, the data I used lends itself to using a bar chart. The data that I used was aggregated numerical data for each ordinal value, so it makes sense to give 
+                    each ordinal data its own bar to encode its data. Furthermore, a bar chart effectively expresses <i>all</i> of the data and is not hindered by any kind of occlusion.
+                    I also believe that this visual layout is especially effective because I use perceptual tasks that high on  the hierarchy i.e. the use of length for the bar chart lengths
+                    and using position along a common scale.  
+                </p>
+            <div class="divider"> </div>
+                <!--Content 2 goes here -->
+                <h5>Control Feature Choices</h5>
+                <p>The control features I decided to utilize were simple buttons and a drop down menu with two different values. My dataset lends itself to separating between two specifically different
+                    types of data (Base Stats and Elemental Types) and then further filtering the data from the choice between the two. When the user selects "Type" they are offered a variety of elemental 
+                    Pokemon types to choose from and then the visualization will filter on the type the user clicked on. It works similarly for the Base Stats selection as well. This separation is necessary 
+                    because it allows the user to easily distinguish between the dataset they want to look at. Elemental Types are distincly different from Base Stats, therefore keeping their buttons separate
+                    allows the user to ask different questions and find them more easily. They can ask questions like which region had the most Ghost-type Pokemon introduced? Or the least? As well as what 
+                    region had the best average base stat for Speed for example. When they make a selection they know exactly what data they will be seeing. For example, they will see the data only for
+                    Fire-type Pokemon. Or they will see the data of all existing Pokemon but only for their base Speed stat. The user will know that these are distinctly separate as well. These are insights 
+                    that I found while creating this control tool. 
+                </p>
+            <div class="divider"> </div>
+                <!--Content 3 goes here -->
+                <h5>Visual Encoding Choices</h5>
+                <p>The visual encoding choices I made for this visualization were talked about in the first section. I mentioned the use of perceptual tasks high on the hierarchy because they were the most effective
+                    in expressing my dataset. I used position along a common scale and length to encode a lot of my information. I also made the decision to use different colors for each region. I made this choice because
+                    many Pokemon fans distinguish each region from each other, if each bar was the same color, they would <i>need</i> to read the scales to know they were different regions instead of just noticing that their
+                    colors were different. I also made the buttons a different color for each type because each elemental type is best distinguished by a specific color. I did not for the base stats because in the community, 
+                    base stats are not generally color coded so why throw off the audience here by giving them different colors? Lastly, I wanted to highlight which region had the largest bar by making the font size for the region 
+                    bigger if their bar was the biggest based on the filtered data, however I was stopped by my lack of knowledge for implementing that encoding.
+                </p>
+            <div class="divider"> </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,7 +1,5 @@
 $(function() {
     d3.csv('data/Pokemon.csv', function(error, data) {
-        console.log(data);
-
         //Margin object
         var margin = {
             top: 50,
@@ -38,7 +36,6 @@ $(function() {
         var generations = data.map(function(d) {
                 return d.Generation;
             });
-        console.log(generations);
 
         var regions = [];
         generations.forEach(function(element) {
@@ -65,7 +62,6 @@ $(function() {
                     break;
             }
         }, this);
-        console.log(regions);
 
         /* 
         Calculates a count of the number of pokemon in each region. Megas are included in the region where the original pokemon originates. Additionally, counts different forms for pokemon i.e. pumpkaboo sizes, etc.
@@ -108,7 +104,6 @@ $(function() {
             .rollup(function(d) {
                 return d.length;
             }).entries(data);
-            console.log(aggregatedPokemon);
             return aggregatedPokemon;
         };
 
@@ -145,7 +140,6 @@ $(function() {
                     return +d[type];
                 });
             }).entries(data);
-            console.log(aggregatedPokemon);
             return aggregatedPokemon;
         };
 
@@ -179,7 +173,6 @@ $(function() {
             .rollup(function(d) {
                 return d.length;
             }).entries(data);
-        console.log(numberPokemonPerRegion);
         
         //g element that will draw the x axis that is appended to the svg
         var xAxisLabel = svg.append('g')
@@ -222,7 +215,6 @@ $(function() {
             var yMax = d3.max(data, function(d) {
                 return +d.value
             });
-            console.log(yMax);
 
             xScale.range([0, drawWidth])
                 .domain(regions)
@@ -230,7 +222,6 @@ $(function() {
 
             yScale.range([drawHeight, 0])
                 .domain([0, yMax]);
-
         };
 
         //Sets the axes
@@ -306,12 +297,12 @@ $(function() {
             
             $("h6").text(val).attr('class', className);
             type = val;
+            $("h4").text()
 
             var filteredData = typeFilter();
             
             if (selection == 'Types') {
                 draw(aggregate(filteredData));
-
             } else if (selection == 'Base Stats') {
                 draw(aggregateBaseStats(numberPokemonPerRegion));
             }
@@ -319,25 +310,18 @@ $(function() {
             if (type == 'all') {
                 draw(numberPokemonPerRegion);
             }
-
-            // var thing = aggregateBaseStats()
-            // console.log(thing);
         });
 
+        //Control tool for drop down
         $(document).ready(function() {
             $(".dropdown-button").on('change', function() {
             var val = $("#mySelect").val();
-            console.log(val);
             selection = val;
 
-            //$(".btn-group").replaceWith();
-
             if (selection == 'Base Stats') {
-                console.log("basestats selected");
                 $("#stats").show();
                 $("#types").hide();
             } else if (selection == 'Types') {
-                console.log("types selected");
                 $('#types').show();
                 $("#stats").hide();
             }
